@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DoctorService {
+
+    // In-memory database for Doctors
     private static final List<Doctor> doctors = new ArrayList<>();
 
     public void addDoctor(Doctor doctor) {

@@ -57,4 +57,10 @@ public class Appointment {
     // Getters and Setters
     public String getAppointmentId() { return appointmentId; }
     public String getStatus() { return status; }
+
+    // --- GETTERS (Required for Service Layer Filtering) ---
+    // The Service needs these 3 specifically to solve Task 1.8:
+    public String getPatientId() { return patientId; }
+    public String getDoctorId() { return doctorId; }
+    public LocalDate getAppointmentDate() { return appointmentDate; }
 }

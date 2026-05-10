@@ -18,29 +18,7 @@ public class PatientService {
         patients.add(patient);
         System.out.println(" Patient [" + patient.getFirstName() + "] registered successfully.");
     }
-
-    // 2. READ: Get patient by ID
-    public Patient getPatientById(String patientId) {
-        return patients.stream()
-                .filter(p -> p.getPatientId().equals(patientId))
-                .findFirst()
-                .orElse(null);
-    }
-
-    // 3. READ: Display all patients
-    public void displayAllPatients() {
-        if (patients.isEmpty()) {
-            System.out.println(" No patients registered in the system.");
-            return;
-        }
-        System.out.println("\n--- Registered Patients List ---");
-        for (Patient p : patients) {
-            p.displayInfo();
-            System.out.println("--------------------------------");
-        }
-    }
-
-    // 4. UPDATE: Edit existing patient
+    // 2. UPDATE: Edit existing patient
     public void editPatient(String patientId, Patient updatedData) {
         Patient existing = getPatientById(patientId);
         if (existing != null) {
@@ -56,7 +34,15 @@ public class PatientService {
         }
     }
 
-    // 5. DELETE: Remove patient
+
+    // 3. READ: Get patient by ID
+    public Patient getPatientById(String patientId) {
+        return patients.stream()
+                .filter(p -> p.getPatientId().equals(patientId))
+                .findFirst()
+                .orElse(null);
+    }
+    // 4. DELETE: Remove patient
     public void removePatient(String patientId) {
         boolean removed = patients.removeIf(p -> p.getPatientId().equals(patientId));
         if (removed) {
@@ -65,6 +51,20 @@ public class PatientService {
             System.out.println(" Error: Could not find patient to remove.");
         }
     }
+
+    // 5. READ: Display all patients
+    public void displayAllPatients() {
+        if (patients.isEmpty()) {
+            System.out.println(" No patients registered in the system.");
+            return;
+        }
+        System.out.println("\n--- Registered Patients List ---");
+        for (Patient p : patients) {
+            p.displayInfo();
+            System.out.println("--------------------------------");
+        }
+    }
+
 
     // 6. SEARCH: Search by Name
     public void searchPatientsByName(String name) {

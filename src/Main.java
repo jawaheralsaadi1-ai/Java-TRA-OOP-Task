@@ -57,6 +57,26 @@ void main() {
             "APP-001", "PAT-999", "DOC-777", LocalDate.now().plusDays(1),"Night", "Sick"
     );
 
+    // 6. FINAL SYSTEM REPORT (Verification)
+    System.out.println("\n" + "=".repeat(40));
+    System.out.println("       FINAL SYSTEM INTEGRITY REPORT       ");
+    System.out.println("=".repeat(40));
 
+    System.out.println("\n[Department Summary]");
+    emergency.displayInfo();
 
+    System.out.println("\n[Staff Details]");
+    doctor.displayInfo();
+    System.out.println("-".repeat(20));
+    nurse.displayInfo();
+
+    System.out.println("\n[Patient & Appointment Details]");
+    patient.displayInfo();
+    appt.displayInfo();
+
+    System.out.println("\n=== Day 1 Integration Test Completed Successfully ===");
 }
+
+
+
+

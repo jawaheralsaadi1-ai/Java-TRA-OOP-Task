@@ -11,4 +11,9 @@ void main() {
     Scanner scanner = new Scanner(System.in);
 
     System.out.println("=== Hospital System: Day 1 Integration Test ===");
+
+    // 1. SETUP DEPARTMENT
+    System.out.println("\n[Action] Creating Emergency Department...");
+    Department emergency = new Department("DEP-EMR", "Emergency Room", 10);
+
 }

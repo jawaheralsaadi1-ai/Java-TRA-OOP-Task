@@ -51,5 +51,12 @@ void main() {
             "PAT-999", "A+", "Brother: 90000000", "INS-VIEW-2026"
     );
 
+    // 5. CREATE AN APPOINTMENT
+    System.out.println("\n[Action] Scheduling Appointment...");
+    Appointment appt = new Appointment(
+            "APP-001", "PAT-999", "DOC-777", LocalDate.now().plusDays(1),"Night", "Sick"
+    );
+
+
 
 }

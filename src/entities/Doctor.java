@@ -51,7 +51,7 @@ public class Doctor extends Person {
     // Task Specific Methods
     public void assignPatient(String patientId) {
         this.assignedPatients.add(patientId);
-        System.out.println("👨‍⚕️ Patient " + patientId + " assigned to Dr. " + getLastName());
+        System.out.println(" Patient " + patientId + " assigned to Dr. " + getLastName());
     }
 
     public void removePatient(String patientId) {

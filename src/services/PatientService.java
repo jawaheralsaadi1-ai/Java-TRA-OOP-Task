@@ -1,8 +1,7 @@
 package services;
 import entities.Patient;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 /**
  * ROLE: Logic engine for Patient management.
@@ -13,6 +12,15 @@ public class PatientService {
     // In-memory database for patients
     private static final List<Patient> patients = new ArrayList<>();
 
+    public void registerNewPatient(String firstName, String lastName) {
+        // توليد معرف فريد تلقائياً عند التسجيل
+        String generatedId = UUID.randomUUID().toString();
+
+        // Patient patient = new Patient(generatedId, firstName, lastName, ...);
+        // patients.add(patient);
+
+        System.out.println("Patient registered with unique ID: " + generatedId);
+    }
     // 1. CREATE: Add a new patient
     public void addPatient(Patient patient) {
         patients.add(patient);
@@ -73,4 +81,5 @@ public class PatientService {
                 .filter(p -> p.getFirstName().equalsIgnoreCase(name) || p.getLastName().equalsIgnoreCase(name))
                 .forEach(Patient::displayInfo);
     }
+
 }

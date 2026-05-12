@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Surgeon extends Doctor {
 
-    //1. Add specific data
+    //1. Add specific data ,
     private int surgeriesPerformed;
     private List<String> surgeryTypes;
     private boolean operationTheatreAccess;

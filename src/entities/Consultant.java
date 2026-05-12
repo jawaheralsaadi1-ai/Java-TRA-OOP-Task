@@ -23,7 +23,19 @@ public class Consultant extends Doctor {
         this.consultion = consultion;
         this.consultationDuration = consultationDuration;
     }
+    // 3 Add Specialized Methods
+public void scheduleConsultation(String consultationId)
+{}
+    public void provideSecondOpinion(){
 
+    }
+    // 4. Override displayInfo
+    @Override
+    public void displayInfo() {
+        super.displayInfo(); // Let the parent (Doctor) print its info
+        System.out.println("Online Consulting: " + (onlineConsultiantAvailable ? "YES" : "NO"));
+        System.out.println("Average Duration: " + consultationDuration + " minutes");
+    }
 
     }
 

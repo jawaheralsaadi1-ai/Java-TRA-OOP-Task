@@ -28,4 +28,16 @@ void main() {
     );
     emergency.assignNurse(nurse);
 
+    // 3. REGISTER A DOCTOR
+    System.out.println("\n[Action] Onboarding Doctor...");
+    System.out.print("Enter Doctor First Name: ");
+    String dName = scanner.nextLine();
+
+    Doctor doctor = new Doctor(
+            UUID.randomUUID().toString(), dName, "Al-Saadi", LocalDate.of(1980, 5, 10),
+            "Male", "99445566", dName.toLowerCase() + "@hosp.com", "Sohar",
+            "DOC-777", "General Medicine", "MD", 15, "DEP-EMR", 50.0
+    );
+    emergency.assignDoctor(doctor);
+
 }

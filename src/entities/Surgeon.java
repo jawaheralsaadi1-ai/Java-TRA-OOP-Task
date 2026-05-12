@@ -29,4 +29,26 @@ public class Surgeon extends Doctor {
         this.operationTheatreAccess = operationTheatreAccess;
 
 }
+    // 3.  Add specific data
+
+    // Specialized Methods
+    public void performSurgery(String surgeryType) {
+        if (operationTheatreAccess) {
+            this.surgeryTypes.add(surgeryType);
+            this.surgeriesPerformed++;
+            System.out.println("Surgery '" + surgeryType + "' performed successfully by Dr. " + getLastName());
+        } else {
+            System.out.println("Access Denied: Dr. " + getLastName() + " does not have Theatre Access.");
+        }
+    }
+    public void updateSurgeryCount(int count) {
+        if (count > 0) this.surgeriesPerformed += count;
+}
+    // Override displayInfo to show surgery details
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Surgeries Performed: " + surgeriesPerformed);
+        System.out.println("Theatre Access: " + (operationTheatreAccess ? "Yes" : "No"));
+    }
 }

@@ -40,4 +40,16 @@ void main() {
     );
     emergency.assignDoctor(doctor);
 
+    // 4. REGISTER A PATIENT
+    System.out.println("\n[Action] Registering New Patient...");
+    System.out.print("Enter Patient Last Name: ");
+    String pLastName = scanner.nextLine();
+
+    Patient patient = new Patient(
+            UUID.randomUUID().toString(), "Jawaher", "Al-Saadi", LocalDate.of(2000, 2, 12),
+            "Female", "9222222", "jawa@mail.com", "Muscat",
+            "PAT-999", "A+", "Brother: 90000000", "INS-VIEW-2026"
+    );
+
+
 }

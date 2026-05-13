@@ -2,15 +2,17 @@ package entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
-public class InPatient extends Patient{
+public class InPatient extends Patient {
 
 // What Do?
 // 1. Add specific data
-// 2. Add: calculateStayDuration(), calculateTotalCharges()*/
-// 3. Override methods
+// 2. Override methods
+// 3. Add: calculateStayDuration(), calculateTotalCharges()*/
 
-// Add specific  data
+
+    // Add specific  data
     private LocalDate admissionDate;
     private LocalTime dischargeDate;
     private String roomNumber;
@@ -23,8 +25,7 @@ public class InPatient extends Patient{
                      String gender, String phoneNumber, String email, String address,
                      String patientId, String bloodGroup, String emergencyContact, String insuranceId,
                      LocalDate admissionDate, LocalTime dischargeDate, String roomNumber, String bedNumber,
-                     String admittingDoctorId, double dailyCharges)
-    {
+                     String admittingDoctorId, double dailyCharges) {
         // Pass mandatory identity data to the Patient class
         super(id, firstName, lastName, dateOfBirth, gender,
                 phoneNumber, email, address, patientId, bloodGroup,
@@ -38,5 +39,23 @@ public class InPatient extends Patient{
         this.admittingDoctorId = admittingDoctorId;
         this.dailyCharges = dailyCharges;
     }
+    //  Override displayInfo
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+
+    }
+    //  Add Specialized Methods
+
+    // Add method 1
+    public void calculateStayDuration() {
+
+    }
+
+    //Add method 2
+    public void calculateTotalCharges() {
+
+    }
+
 
 }

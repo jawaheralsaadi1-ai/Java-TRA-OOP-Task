@@ -44,7 +44,43 @@ public class PatientService {
     public void removePatient(String patientId) {}
 
     // 5. READ: Display all patients
+    //-------SECTION 3: OVERLOADED Display METHODS------------
     public void displayAllPatients() {}
+
+    public void displayPatients() {
+        if (patients.isEmpty()) {
+            System.out.println("Database is currently empty.");
+            return;
+        }
+        for (Patient p : patients) {
+            p.displayInfo();
+        }
+    }
+
+    /** Display patients filtered by criteria r */
+    public void displayPatients(String filter) {
+        System.out.println("\n--- Filtered by: " + filter + " ---");
+        for (Patient p : patients) {
+            if (p.getBloodGroup().equalsIgnoreCase(filter) ||
+                    p.getGender().equalsIgnoreCase(filter)) {
+                p.displayInfo();
+            }
+        }
+    }
+
+    /** Display a specific number of records (limit) */
+    public void displayPatients(int limit) {
+        System.out.println("\n--- Showing top " + limit + " records ---");
+        int count = 0;
+        for (Patient p : patients) {
+            if (count < limit) {
+                p.displayInfo();
+                count++;
+            } else {
+                break; // Stop loop once limit is reached
+            }
+        }
+    }
 
 
     // 6. SEARCH

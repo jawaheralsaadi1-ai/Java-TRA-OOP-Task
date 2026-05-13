@@ -5,10 +5,11 @@ import java.time.LocalTime;
 
 public class InPatient extends Patient{
 
+// What Do?
+// 1. Add specific data
+// 2. Add: calculateStayDuration(), calculateTotalCharges()*/
+// 3. Override methods
 
-
-//Override methods
-//Add: calculateStayDuration(), calculateTotalCharges()*/
 // Add specific  data
     private LocalDate admissionDate;
     private LocalTime dischargeDate;
@@ -37,4 +38,5 @@ public class InPatient extends Patient{
         this.admittingDoctorId = admittingDoctorId;
         this.dailyCharges = dailyCharges;
     }
+
 }

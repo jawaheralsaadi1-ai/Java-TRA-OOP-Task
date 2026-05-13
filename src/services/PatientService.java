@@ -9,7 +9,7 @@ public class PatientService {
     // Internal storage for all patient types
     private static final List<Patient> patients = new ArrayList<>();
 
-    //SECTION 1: OVERLOADED REGISTRATION
+    //--------------SECTION 1: OVERLOADED ADD (REGISTRATION)------------
     // 1. Minimal info for quick add.
     public void addPatient(String firstName, String lastName, String phone) {
         System.out.println("Quick Add: Registering " + firstName + " " + lastName + " with phone: " + phone);
@@ -46,8 +46,40 @@ public class PatientService {
     // 5. READ: Display all patients
     public void displayAllPatients() {}
 
-    // 6. SEARCH: Search by Name
+
+    // 6. SEARCH
+    //-------SECTION 2: OVERLOADED SEARCH METHODS------------
+    // Search by name
     public void searchPatientsByName(String name) {}
 
+    //Search by any field (Keyword search)
+    public void searchPatients(String keyword ) {
+        System.out.println("\n--- Results for: '" + keyword + "' ---");
+        boolean found = false;
+        for (Patient p : patients) {
+            // Check if keyword exists in ID or Names
+            if (p.getPatientId().contains(keyword) ||
+                    p.getFirstName().contains(keyword) ||
+                    p.getLastName().contains(keyword)) {
+                p.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("No matching records found.");
 
 }
+// Search by name
+    public void searchPatients(String firstName, String lastName) {
+        System.out.println("\n--- Results for: " + firstName + " " + lastName + " ---");
+        boolean found = false;
+        for (Patient p : patients) {
+            // Compare names ignoring case sensitivity
+            if (p.getFirstName().equalsIgnoreCase(firstName) &&
+                    p.getLastName().equalsIgnoreCase(lastName)) {
+                p.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("No patient found with this name.");
+    }
+        }

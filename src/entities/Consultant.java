@@ -23,7 +23,6 @@ public class Consultant extends Doctor {
         this.consultion = consultion;
         this.consultationDuration = consultationDuration;
     }
-    // 3 Add Specialized Methods
 public void scheduleConsultation(String consultationId)
 {}
     public void provideSecondOpinion(){

@@ -15,8 +15,8 @@ public class EmergencyPatient extends InPatient {
 
     // Declaring specific data for EmergencyPatient (EP)
     private String emergencyType;
-    private String arrivalMode;
-    private int triageLevel;
+    private String arrivalMode; // Ambulance or Walk-in
+    private int triageLevel; // 1 (Urgent) to 5 (Non-urgent)
     private boolean admittedViaER;
 
     // Setup Constructor
@@ -36,6 +36,30 @@ public class EmergencyPatient extends InPatient {
         this.emergencyType = emergencyType;
         this.arrivalMode = arrivalMode;
         this.triageLevel = triageLevel;
-        this.admittedViaER = admittedViaER;
+        this.admittedViaER = true;
     }
+
+    // implement Override displayInfo
+    @Override
+    public void displayInfo() {
+        System.out.println("--- EMERGENCY CASE ---");
+        // This will print Person, Patient, and InPatient info
+        super.displayInfo();
+        System.out.println("Emergency Type: " + emergencyType);
+        System.out.println("Arrival Mode: " + arrivalMode);
+        System.out.println("Triage Level: " + triageLevel + " (Priority)");
+
+    }
+
+    //  Implement Specialized Methods with logic
+    public void updateTriageLevel(int newLevel) {
+    if (newLevel >=1 && newLevel <= 5) {
+        this.triageLevel = newLevel;
+        System.out.println("Triage level updated to:" + newLevel + "for patient: "+ getFirstName() + " " + getLastName());
+    }
+    }
+
 }
+
+
+

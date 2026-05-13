@@ -1,47 +1,37 @@
 package services;
 import entities.Patient;
-
 import java.util.*;
 
-/**
- * ROLE: Logic engine for Patient management.
- * CONCEPTS: CRUD Operations, Data Search, List Filtering.
- */
-//Task 1.8: Create Service Classes with CRUD Operations
+
+// Create Service Classes with CRUD Operations
 public class PatientService {
-    // In-memory database for patients
+
+    // Internal storage for all patient types
     private static final List<Patient> patients = new ArrayList<>();
 
-    public void registerNewPatient(String firstName, String lastName) {
-        // توليد معرف فريد تلقائياً عند التسجيل
-        String generatedId = UUID.randomUUID().toString();
-
-        // Patient patient = new Patient(generatedId, firstName, lastName, ...);
-        // patients.add(patient);
-
-        System.out.println("Patient registered with unique ID: " + generatedId);
+    //SECTION 1: OVERLOADED REGISTRATION
+    // 1. Minimal info for quick add.
+    public void addPatient(String firstName, String lastName, String phone) {
+        System.out.println("Quick Add: Registering " + firstName + " " + lastName + " with phone: " + phone);
     }
-    // 1. CREATE: Add a new patient
-    public void addPatient(Patient patient) {
-        patients.add(patient);
-        System.out.println(" Patient [" + patient.getFirstName() + "] registered successfully.");
+
+    // 2. Medical details add (Extra details).
+    public void addPatient(String firstName, String lastName,
+                           String phone, String bloodGroup, String email) {
+        System.out.println("Medical Add: Registering " + firstName + " [Blood Group: " + bloodGroup + "]");
     }
-    // 2. UPDATE: Edit existing patient
-    public void editPatient(String patientId, Patient updatedData) {
-        Patient existing = getPatientById(patientId);
-        if (existing != null) {
-            existing.setFirstName(updatedData.getFirstName());
-            existing.setLastName(updatedData.getLastName());
-            existing.setPhoneNumber(updatedData.getPhoneNumber());
-            existing.setEmail(updatedData.getEmail());
-            existing.setAddress(updatedData.getAddress());
-            existing.setAllergies(updatedData.getAllergies());
-            System.out.println(" Patient record updated for ID: " + patientId);
-        } else {
-            System.out.println("Error: Patient with ID " + patientId + " not found.");
+    // 3. Full object add  (Standard).
+    public static void addPatient(Patient patient) {
+        if (patient != null) {
+            patients.add(patient);
+            System.out.println("Full Object Success: Added Patient ID " + patient.getPatientId());
         }
     }
 
+    // 2. UPDATE: Edit existing patient
+    public void editPatient(String patientId, Patient updatedData) {
+        Patient existing = getPatientById(patientId);
+    }
 
     // 3. READ: Get patient by ID
     public Patient getPatientById(String patientId) {
@@ -51,35 +41,13 @@ public class PatientService {
                 .orElse(null);
     }
     // 4. DELETE: Remove patient
-    public void removePatient(String patientId) {
-        boolean removed = patients.removeIf(p -> p.getPatientId().equals(patientId));
-        if (removed) {
-            System.out.println(" Patient with ID " + patientId + " removed from system.");
-        } else {
-            System.out.println(" Error: Could not find patient to remove.");
-        }
-    }
+    public void removePatient(String patientId) {}
 
     // 5. READ: Display all patients
-    public void displayAllPatients() {
-        if (patients.isEmpty()) {
-            System.out.println(" No patients registered in the system.");
-            return;
-        }
-        System.out.println("\n--- Registered Patients List ---");
-        for (Patient p : patients) {
-            p.displayInfo();
-            System.out.println("--------------------------------");
-        }
-    }
-
+    public void displayAllPatients() {}
 
     // 6. SEARCH: Search by Name
-    public void searchPatientsByName(String name) {
-        System.out.println("Search results for: " + name);
-        patients.stream()
-                .filter(p -> p.getFirstName().equalsIgnoreCase(name) || p.getLastName().equalsIgnoreCase(name))
-                .forEach(Patient::displayInfo);
-    }
+    public void searchPatientsByName(String name) {}
+
 
 }

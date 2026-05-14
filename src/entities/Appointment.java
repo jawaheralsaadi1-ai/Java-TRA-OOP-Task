@@ -28,6 +28,10 @@ public class Appointment {
         this.reason = reason;
     }
 
+    public Appointment() {
+
+    }
+
     // Task Specific Methods
     public void reschedule(LocalDate newDate, String newTime) {
         this.appointmentDate = newDate;
@@ -63,4 +67,47 @@ public class Appointment {
     public String getPatientId() { return patientId; }
     public String getDoctorId() { return doctorId; }
     public LocalDate getAppointmentDate() { return appointmentDate; }
+
+    public void setPatientId(String patientId) {return;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

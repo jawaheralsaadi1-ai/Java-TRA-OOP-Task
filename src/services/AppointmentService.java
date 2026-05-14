@@ -12,45 +12,98 @@ import java.util.List;
 public class AppointmentService {
     private static final List<Appointment> appointments = new ArrayList<>();
 
-    // CREATE
-    public void createAppointment(Appointment appt) {
-        appointments.add(appt);
+    // 1. Basic creation with minimum info
+    public void createAppointment(String patientId, String doctorId, LocalDate date) {
+        createAppointment(patientId, doctorId, date, "09:00 AM");
     }
 
-    // READ: Filter by patient
-    public List<Appointment> getAppointmentsByPatient(String patientId) {
-        return appointments.stream()
-                .filter(a -> a.getPatientId().equals(patientId))
-                .toList();
+    // 2. Creation with specific time
+    public void createAppointment(String patientId, String doctorId, LocalDate date, String time) {
+        Appointment appt = new Appointment();
+        appt.setPatientId(patientId);
+        appt.setDoctorId(doctorId);
+        appt.setAppointmentDate(date);
+        appt.setAppointmentTime(time);
+        appt.setStatus("Scheduled");
+
+        createAppointment(appt);
     }
 
-    // READ: Filter by doctor
-    public List<Appointment> getAppointmentsByDoctor(String doctorId) {
-        return appointments.stream()
-                .filter(a -> a.getDoctorId().equals(doctorId))
-                .toList();
+    // 3. Standard creation with full object
+    public void createAppointment(Appointment appointment) {
+        if (appointment != null) {
+            appointments.add(appointment);
+        }
     }
 
-    // READ: Filter by date
-    public List<Appointment> getAppointmentsByDate(LocalDate date) {
-        return appointments.stream()
-                .filter(a -> a.getAppointmentDate().equals(date))
-                .toList();
+    //-------------- SECTION 2: RESCHEDULE (OVERLOADED) ------------
+
+    public void rescheduleAppointment(String appointmentId, LocalDate newDate) {
+        for (Appointment a : appointments) {
+            if (a.getAppointmentId().equals(appointmentId)) {
+                a.setAppointmentDate(newDate);
+                System.out.println("Appointment date updated for: " + appointmentId);
+                return;
+            }
+        }
     }
 
-    // UPDATE: Reschedule
-    public void rescheduleAppointment(String id, LocalDate newDate, String newTime) {
-        appointments.stream()
-                .filter(a -> a.getAppointmentId().equals(id))
-                .findFirst()
-                .ifPresent(a -> a.reschedule(newDate, newTime));
+    public void rescheduleAppointment(String appointmentId, LocalDate newDate, String newTime) {
+        for (Appointment a : appointments) {
+            if (a.getAppointmentId().equals(appointmentId)) {
+                a.setAppointmentDate(newDate);
+                a.setAppointmentTime(newTime);
+                System.out.println("Appointment date and time updated.");
+                return;
+            }
+        }
     }
 
-    // UPDATE: Cancel
-    public void cancelAppointment(String id) {
-        appointments.stream()
-                .filter(a -> a.getAppointmentId().equals(id))
-                .findFirst()
-                .ifPresent(Appointment::cancel);
+    public void rescheduleAppointment(Appointment appointment, LocalDate newDate, String newTime, String reason) {
+        if (appointment != null) {
+            appointment.setAppointmentDate(newDate);
+            appointment.setAppointmentTime(newTime);
+            appointment.setReason(reason);
+            appointment.setStatus("Rescheduled");
+            System.out.println("Appointment rescheduled with reason.");
+        }
+    }
+
+    //-------------- SECTION 3: DISPLAY (OVERLOADED) ------------
+
+    public void displayAppointments(LocalDate date) {
+        System.out.println("\n--- Appointments for: " + date + " ---");
+        boolean found = false;
+        for (Appointment a : appointments) {
+            if (a.getAppointmentDate().equals(date)) {
+                a.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("No appointments found on this date.");
+    }
+
+    public void displayAppointments(String doctorId, LocalDate startDate, LocalDate endDate) {
+        System.out.println("\n--- Appointments for Doctor: " + doctorId + " ---");
+        for (Appointment a : appointments) {
+            if (a.getDoctorId().equals(doctorId)) {
+                LocalDate d = a.getAppointmentDate();
+                if (!d.isBefore(startDate) && !d.isAfter(endDate)) {
+                    a.displayInfo();
+                }
+            }
+        }
+    }
+
+    //-------------- SECTION 4: ADDITIONAL LOGIC ------------
+
+    public void cancelAppointment(String appointmentId) {
+        for (Appointment a : appointments) {
+            if (a.getAppointmentId().equals(appointmentId)) {
+                a.setStatus("Cancelled");
+                System.out.println("Appointment " + appointmentId + " has been cancelled.");
+                return;
+            }
+        }
     }
 }

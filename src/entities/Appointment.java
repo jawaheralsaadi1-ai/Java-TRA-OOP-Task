@@ -1,113 +1,22 @@
 package entities;
 
-import java.time.LocalDate;
-
-/**
- * ROLE: Manages the scheduling of consultations.
- * CONCEPTS: State Management (Status updates).
- */
+import java.time.LocalDateTime;
 
 public class Appointment {
-    private String appointmentId;
-    private String patientId;
-    private String doctorId;
-    private LocalDate appointmentDate;
-    private String appointmentTime;
-    private String status; // Scheduled, Completed, Cancelled, Rescheduled
-    private String reason;
     private String notes;
 
-    public Appointment(String appointmentId, String patientId, String doctorId,
-                       LocalDate appointmentDate, String appointmentTime, String reason) {
-        this.appointmentId = appointmentId;
-        this.patientId = patientId;
-        this.doctorId = doctorId;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.status = "Scheduled"; // Default status
-        this.reason = reason;
-    }
-
-    public Appointment() {
-
-    }
-
-    // Task Specific Methods
-    public void reschedule(LocalDate newDate, String newTime) {
-        this.appointmentDate = newDate;
-        this.appointmentTime = newTime;
-        this.status = "Rescheduled";
-        System.out.println("Appointment " + appointmentId + " rescheduled.");
-    }
-
-    public void cancel() {
-        this.status = "Cancelled";
-        System.out.println(" Appointment " + appointmentId + " cancelled.");
-    }
-
-    public void complete() {
-        this.status = "Completed";
-        System.out.println(" Appointment " + appointmentId + " marked as completed.");
-    }
-
-    public void displayInfo() {
-        System.out.println("--- Appointment Details ---");
-        System.out.println("ID: " + appointmentId + " | Status: " + status);
-        System.out.println("Date/Time: " + appointmentDate + " at " + appointmentTime);
-        System.out.println("Patient: " + patientId + " | Doctor: " + doctorId);
-        System.out.println("Reason: " + reason);
-    }
-
-    // Getters and Setters
-    public String getAppointmentId() { return appointmentId; }
-    public String getStatus() { return status; }
-
-    // --- GETTERS (Required for Service Layer Filtering) ---
-    // The Service needs these 3 specifically to solve Task 1.8:
-    public String getPatientId() { return patientId; }
-    public String getDoctorId() { return doctorId; }
-    public LocalDate getAppointmentDate() { return appointmentDate; }
-
-    public void setPatientId(String patientId) {return;
-    }
-
-    public void setAppointmentId(String appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(String appointmentTime) {
-        this.appointmentTime = appointmentTime;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
+    // Basic Note
+    public void addNotes(String notes) {
         this.notes = notes;
+    }
+
+    // Note with Author
+    public void addNotes(String notes, String addedBy) {
+        this.notes = notes + " | Added by: " + addedBy;
+    }
+
+    // Full Audit Note
+    public void addNotes(String notes, String addedBy, LocalDateTime timestamp) {
+        this.notes = String.format("[%s] %s (Author: %s)", timestamp, notes, addedBy);
     }
 }

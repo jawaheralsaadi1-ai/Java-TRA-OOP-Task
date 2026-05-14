@@ -1,30 +1,19 @@
 package entities;
 
 public class Patient extends Person {
-    private String email;
-    private String address;
+    private String patientId;
+    private String bloodGroup;
 
-    // Constructor Chaining (Task 2.4)
-    public Patient(String firstName, String lastName, String phoneNumber) {
+    // Fixed Constructor: Matches the 4 arguments usually needed
+    public Patient(String firstName, String lastName, String phoneNumber, String patientId) {
         super(firstName, lastName, phoneNumber);
+        this.patientId = patientId;
     }
 
-    // --- Task 2.5: Method Overloading ---
+    // Getters and Setters
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    // Level 1: Base update
-    public void updateContact(String phone) {
-        this.phoneNumber = phone;
-    }
-
-    // Level 2: Calls Level 1
-    public void updateContact(String phone, String email) {
-        this.updateContact(phone);
-        this.email = email;
-    }
-
-    // Level 3: Calls Level 2
-    public void updateContact(String phone, String email, String address) {
-        this.updateContact(phone, email);
-        this.address = address;
-    }
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
 }

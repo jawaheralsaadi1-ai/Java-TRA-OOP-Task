@@ -3,6 +3,7 @@ package services;
 import entities.Appointment;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -105,5 +106,12 @@ public class AppointmentService {
                 return;
             }
         }
+    }
+
+    public void displayAll() {
+    }
+
+    public Collection<Object> getAll() {
+        return List.of();
     }
 }

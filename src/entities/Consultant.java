@@ -1,40 +1,14 @@
 package entities;
 
-import java.time.LocalDate;
-import java.util.List;
-
 public class Consultant extends Doctor {
-
-    // 1. Add specific data , should be 'private'
-    private List<String>consultion;
-    private boolean onlineConsultiantAvailable;
-    private int consultationDuration;
-
-    // 2. Updated Constructor
-    public Consultant(String id, String firstName, String lastName, LocalDate dateOfBirth,
-                      String gender, String phoneNumber, String email, String address,
-                      String doctorId, String specialization, String qualification,
-                      int experienceYears, String departmentId, double consultationFee,
-                      boolean onlineConsultiantAvailable, List<String> consultion, int consultationDuration)
-    {
-        // Pass  mandatory identity data to the Doctor class
-        super(id, firstName, lastName, dateOfBirth, gender, phoneNumber, email, address, doctorId, specialization, qualification, experienceYears, departmentId, consultationFee);
-        this.onlineConsultiantAvailable = onlineConsultiantAvailable;
-        this.consultion = consultion;
-        this.consultationDuration = consultationDuration;
+    // Matches: new Consultant("DOC-2", "Sara", "Al-Said", "Neurology", 10)
+    public Consultant(String id, String firstName, String lastName, String specialization, int experience) {
+        super(id, firstName, lastName, specialization, experience);
     }
-public void scheduleConsultation(String consultationId)
-{}
-    public void provideSecondOpinion(){
 
-    }
-    // 4. Override displayInfo
     @Override
     public void displayInfo() {
-        super.displayInfo(); // Let the parent (Doctor) print its info
-        System.out.println("Online Consulting: " + (onlineConsultiantAvailable ? "YES" : "NO"));
-        System.out.println("Average Duration: " + consultationDuration + " minutes");
+        System.out.print("[Consultant] ");
+        super.displayInfo();
     }
-
-    }
-
+}

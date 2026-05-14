@@ -1,16 +1,30 @@
 package entities;
 
-import java.time.LocalDate;
-
 public class Patient extends Person {
-    protected String patientId;
-    protected LocalDate registrationDate;
+    private String email;
+    private String address;
 
-    public Patient(String firstName, String lastName, String phoneNumber, String patientId) {
-        // CHAINING: Calling the Person(String, String, String) constructor
+    // Constructor Chaining (Task 2.4)
+    public Patient(String firstName, String lastName, String phoneNumber) {
         super(firstName, lastName, phoneNumber);
-        this.patientId = patientId;
-        this.registrationDate = LocalDate.now();
-        System.out.println("DEBUG: Level 2 - Patient initialized.");
+    }
+
+    // --- Task 2.5: Method Overloading ---
+
+    // Level 1: Base update
+    public void updateContact(String phone) {
+        this.phoneNumber = phone;
+    }
+
+    // Level 2: Calls Level 1
+    public void updateContact(String phone, String email) {
+        this.updateContact(phone);
+        this.email = email;
+    }
+
+    // Level 3: Calls Level 2
+    public void updateContact(String phone, String email, String address) {
+        this.updateContact(phone, email);
+        this.address = address;
     }
 }

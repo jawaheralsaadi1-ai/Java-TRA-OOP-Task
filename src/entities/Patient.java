@@ -18,6 +18,8 @@ public class Patient extends Person {
     private List<String> medicalRecords; // Initially Strings for simplicity
     private List<String> appointments;   // Initially Strings
 
+
+
 // Full Constructor using Constructor Chaining
     public Patient(String id, String firstName, String lastName, LocalDate dateOfBirth,
                    String gender, String phoneNumber, String email, String address,
@@ -34,6 +36,14 @@ public class Patient extends Person {
         this.allergies = new ArrayList<>();
         this.medicalRecords = new ArrayList<>();
         this.appointments = new ArrayList<>();
+    }
+//Add no-arg constructor To void Error "Expected X arguments but found y"
+    public Patient() {
+        super(); // optional but better
+        this.allergies = new ArrayList<>();
+        this.medicalRecords = new ArrayList<>();
+        this.appointments = new ArrayList<>();
+        this.registrationDate = LocalDate.now();
     }
 
     // Overriding displayInfo() to include patient-specific details
@@ -69,4 +79,8 @@ public class Patient extends Person {
     public String getBloodGroup() { return bloodGroup; }
     public List<String> getAllergies() { return allergies; }
     public void setAllergies(List<String> allergies) { this.allergies = allergies; }
+
+    public void setBloodGroup(String bloodGroup) {
+            this.bloodGroup = bloodGroup;
+    }
 }

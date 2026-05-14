@@ -12,19 +12,23 @@ public class PatientService {
     //--------------SECTION 1: OVERLOADED ADD (REGISTRATION)------------
     // 1. Minimal info for quick add.
     public void addPatient(String firstName, String lastName, String phone) {
-        System.out.println("Quick Add: Registering " + firstName + " " + lastName + " with phone: " + phone);
-    }
+        addPatient(firstName, lastName, phone, "Unknown", "N/A");    }
 
     // 2. Medical details add (Extra details).
     public void addPatient(String firstName, String lastName,
                            String phone, String bloodGroup, String email) {
-        System.out.println("Medical Add: Registering " + firstName + " [Blood Group: " + bloodGroup + "]");
-    }
-    // 3. Full object add  (Standard).
+        Patient patient = new Patient();
+        patient.setFirstName(firstName);
+        patient.setLastName(lastName);
+        patient.setPhoneNumber(phone);
+        patient.setBloodGroup(bloodGroup);
+        patient.setEmail(email);
+
+        addPatient(patient);    }
+    // 3. Full object add  Standard).
     public static void addPatient(Patient patient) {
         if (patient != null) {
             patients.add(patient);
-            System.out.println("Full Object Success: Added Patient ID " + patient.getPatientId());
         }
     }
 
@@ -44,44 +48,60 @@ public class PatientService {
     public void removePatient(String patientId) {}
 
     // 5. READ: Display all patients
+
     //-------SECTION 3: OVERLOADED Display METHODS------------
     public void displayAllPatients() {}
-
+    //Display all patients
     public void displayPatients() {
         if (patients.isEmpty()) {
             System.out.println("Database is currently empty.");
             return;
         }
+        System.out.println("\n--- All Patients ---");
+
         for (Patient p : patients) {
             p.displayInfo();
         }
     }
 
-    /** Display patients filtered by criteria r */
+    //Display patients (String filter)
     public void displayPatients(String filter) {
         System.out.println("\n--- Filtered by: " + filter + " ---");
-        for (Patient p : patients) {
-            if (p.getBloodGroup().equalsIgnoreCase(filter) ||
-                    p.getGender().equalsIgnoreCase(filter)) {
-                p.displayInfo();
+        boolean found = false;
+
+        for (Patient patient : patients) {
+            if (
+                    (patient.getBloodGroup() != null && patient.getBloodGroup().equalsIgnoreCase(filter)) ||
+                            (patient.getGender() != null && patient.getGender().equalsIgnoreCase(filter))
+            ) {
+                patient.displayInfo();
+                found = true;
             }
         }
+        if (!found) {
+            System.out.println("No patients match this filter.");
+        }
     }
-
-    /** Display a specific number of records (limit) */
+    // Display a specific number of records (limit)
     public void displayPatients(int limit) {
         System.out.println("\n--- Showing top " + limit + " records ---");
+        if (patients.isEmpty()) {
+            System.out.println("No patients available.");
+            return;
+        }
         int count = 0;
-        for (Patient p : patients) {
+        for (Patient patient : patients) {
             if (count < limit) {
-                p.displayInfo();
+                patient.displayInfo();
                 count++;
             } else {
                 break; // Stop loop once limit is reached
             }
         }
+        if (count == 0) {
+            System.out.println("No patients to display.");
+        }
     }
-
 
     // 6. SEARCH
     //-------SECTION 2: OVERLOADED SEARCH METHODS------------
@@ -90,29 +110,34 @@ public class PatientService {
 
     //Search by any field (Keyword search)
     public void searchPatients(String keyword ) {
-        System.out.println("\n--- Results for: '" + keyword + "' ---");
         boolean found = false;
-        for (Patient p : patients) {
+        for (Patient patient: patients) {
             // Check if keyword exists in ID or Names
-            if (p.getPatientId().contains(keyword) ||
-                    p.getFirstName().contains(keyword) ||
-                    p.getLastName().contains(keyword)) {
-                p.displayInfo();
+            if(
+            (patient.getPatientId() != null && patient.getPatientId().contains(keyword)) ||
+             (patient.getFirstName() != null && patient.getFirstName().contains(keyword))||
+                     (patient.getBloodGroup() != null && patient.getBloodGroup().equalsIgnoreCase(keyword))||
+                     (patient.getEmail() != null && patient.getEmail().contains(keyword)))
+            {
+            patient.displayInfo();
                 found = true;
             }
         }
         if (!found) System.out.println("No matching records found.");
+
 
 }
 // Search by name
     public void searchPatients(String firstName, String lastName) {
         System.out.println("\n--- Results for: " + firstName + " " + lastName + " ---");
         boolean found = false;
-        for (Patient p : patients) {
+        for (Patient patient : patients) {
             // Compare names ignoring case sensitivity
-            if (p.getFirstName().equalsIgnoreCase(firstName) &&
-                    p.getLastName().equalsIgnoreCase(lastName)) {
-                p.displayInfo();
+            if (
+                    patient.getFirstName().equalsIgnoreCase(firstName) &&
+                    patient.getLastName().equalsIgnoreCase(lastName)
+            ) {
+                patient.displayInfo();
                 found = true;
             }
         }

@@ -1,0 +1,9 @@
+package interfaces;
+
+import java.util.List;
+
+    // For services that support searching
+    public interface Searchable<T> {
+        T searchById(String id);
+        List<T> searchByKeyword(String keyword);
+}

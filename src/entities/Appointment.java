@@ -10,7 +10,7 @@ public class Appointment {
         this.notes = notes;
     }
 
-    // Note with Author
+    // Note with
     public void addNotes(String notes, String addedBy) {
         this.notes = notes + " | Added by: " + addedBy;
     }

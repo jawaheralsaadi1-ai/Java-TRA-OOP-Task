@@ -1,6 +1,8 @@
 package entities;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,6 +19,11 @@ public class Doctor extends Person {
     private double consultationFee;
     private List<String> availableSlots;
     private List<String> assignedPatients;
+    //Add no-arg constructor To void Error "Expected X arguments but found y"
+    public Doctor() {
+        super(); // optional but better
+
+    }
 
     public Doctor(String id, String firstName, String lastName, LocalDate dateOfBirth,
                   String gender, String phoneNumber, String email, String address,
@@ -65,4 +72,21 @@ public class Doctor extends Person {
     // Getters and Setters
     public String getDoctorId() { return doctorId; }
     public String getSpecialization() { return specialization; }
+    public String getQualification() { return qualification; }
+    public int getExperienceYears() { return experienceYears; }
+    public String setSpecialization(String specialization) { return this.specialization = specialization; }
+
+    public void setConsultationFee(double consultationFee) {return;}
+
+    public List<String> getAssignedPatients() { return this.assignedPatients = assignedPatients;}
+
+    public void setAssignedPatients(ArrayList<Object> objects) {
+    }
+
+    public Object getDepartmentId() {return this.departmentId = departmentId;}
+    public void setDepartmentId(String departmentId) {this.departmentId = departmentId;}
+
+    public Collection<Object> getAvailableSlots() {return Collections.singleton(this.availableSlots = availableSlots);}
+
 }
+

@@ -21,6 +21,7 @@ import java.util.Objects;
         private String address;
 
         public Person() {} // Add no-arg constructor To void Error "Expected X arguments but found y"
+
         // Full Constructor
         public Person(String id, String firstName, String lastName, LocalDate dateOfBirth,
                       String gender, String phoneNumber, String email, String address) {

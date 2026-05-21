@@ -1,14 +1,39 @@
 package entities;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class Consultant extends Doctor {
-    // Matches: new Consultant("DOC-2", "Sara", "Al-Said", "Neurology", 10)
-    public Consultant(String id, String firstName, String lastName, String specialization, int experience) {
-        super(id, firstName, lastName, specialization, experience);
+
+    private List<String> consultationTypes;
+    private boolean onlineConsultationAvailable;
+    private int consultationDuration; // defined in minutes
+
+    /**
+     * Constructor Chaining Flow:
+     * Person -> Doctor -> Consultant
+     */
+
+    public Consultant(String id, String firstName, String lastName, LocalDate dateOfBirth,
+                      String gender, String phoneNumber, String email, String address, String doctorId,
+                      String specialization, String qualification, int experienceYears, String departmentId,
+                      double consultationFee, List<String> consultationTypes, boolean onlineConsultationAvailable, int consultationDuration)
+    {
+        // Safely chains initialization parameters back to structural base classes
+        super(id, firstName, lastName, dateOfBirth, gender, phoneNumber, email, address, doctorId, specialization, qualification, experienceYears, departmentId, consultationFee);
+        this.consultationTypes = consultationTypes;
+        this.onlineConsultationAvailable = onlineConsultationAvailable;
+        this.consultationDuration = consultationDuration;
     }
 
+
+    // Overridden method incorporating consultation type delivery mechanisms
     @Override
     public void displayInfo() {
         System.out.print("[Consultant] ");
         super.displayInfo();
     }
+    //   Add specific data
+    public void scheduleConsultation() {}
+    public void provideSecondOpinion() {}
 }

@@ -6,61 +6,78 @@ import java.util.List;
 
 public class DoctorService {
 
-    // In-memory database for Doctors
-    public static final List<Doctor> doctors = new ArrayList<>();
+    private static final List<Doctor> doctors = new ArrayList<>();
 
-    //-------------- SECTION 1: ADD METHODS (OVERLOADED) ------------
-
-    /**
-     * FIXES BUILD ERROR:
-     * Matches call: addDoctor("Dr. Salim", "Cardiology", "99887766", 50.0)
-     */
-    public void addDoctor(String name, String specialization, String phone, double fee) {
-        // We use the 5-argument constructor in Doctor: (firstName, lastName, phone, spec, fee)
-        Doctor doctor = new Doctor(name, "", phone, specialization, fee);
-        addDoctor(doctor);
+    // Add doctor
+    public void addDoctor(Doctor doctor) {
+        doctors.add(doctor);
+        System.out.println("Doctor added: " + doctor.getFirstName());
     }
 
-    // Standard add using full object
-    public void addDoctor(Doctor doctor) {
+    //
+    public Doctor getDoctorById(String doctorId) {
+        for (Doctor d : doctors) {
+            if (d.getDoctorId().equals(doctorId)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    //
+    public void removeDoctor(String doctorId) {
+        Doctor doctor = getDoctorById(doctorId);
         if (doctor != null) {
-            doctors.add(doctor);
+            doctors.remove(doctor);
+            System.out.println("Doctor removed: " + doctorId);
+        } else {
+            System.out.println("Doctor not found: " + doctorId);
         }
     }
 
-    //-------------- SECTION 2: RETRIEVAL & DISPLAY ------------
-
-    /**
-     * Requirement 1.8: Returns the list for statistics and counts.
-     * Changed from Collection<Object> to List<Doctor> for type safety.
-     */
-    public List<Doctor> getAll() {
-        return doctors;
+    //
+    public void editDoctor(String doctorId, Doctor updatedDoctor) {
+        for (int i = 0; i < doctors.size(); i++) {
+            if (doctors.get(i).getDoctorId().equals(doctorId)) {
+                doctors.set(i, updatedDoctor);
+                System.out.println("Doctor updated: " + doctorId);
+                return;
+            }
+        }
+        System.out.println("Doctor not found: " + doctorId);
     }
 
-    /**
-     * Requirement 1.8: Display all doctors with formatted output.
-     */
+    //
     public void displayAllDoctors() {
         if (doctors.isEmpty()) {
-            System.out.println("No doctors are currently registered in the system.");
+            System.out.println("No doctors found.");
             return;
         }
-
-        System.out.println("\n--- Registered Doctors List ---");
+        System.out.println("===== All Doctors =====");
         for (Doctor d : doctors) {
-            d.displayInfo(); // Polymorphism: Works for Doctor, Surgeon, and Consultant
-            System.out.println("------------------------------");
+            d.displayInfo();
+            System.out.println("------------------------");
         }
     }
 
-    /**
-     * Search utility (helpful for the main menu)
-     */
-    public Doctor getDoctorById(String doctorId) {
-        return doctors.stream()
-                .filter(d -> d.getDoctorId() != null && d.getDoctorId().equalsIgnoreCase(doctorId))
-                .findFirst()
-                .orElse(null);
+    //
+    public List<Doctor> getDoctorsBySpecialization(String specialization) {
+        List<Doctor> result = new ArrayList<>();
+        for (Doctor d : doctors) {
+            if (d.getSpecialization().equalsIgnoreCase(specialization)) {
+                result.add(d);
+            }
+        }
+        return result;
+    }
+
+    public List<Doctor> getAvailableDoctors() {
+        List<Doctor> result = new ArrayList<>();
+        for (Doctor d : doctors) {
+            if (d.setAvailableSlots()) {
+                result.add(d);
+            }
+        }
+        return result;
     }
 }

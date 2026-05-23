@@ -36,4 +36,28 @@ public class Consultant extends Doctor {
     //   Add specific data
     public void scheduleConsultation() {}
     public void provideSecondOpinion() {}
+
+    public List<String> getConsultationTypes() {
+        return consultationTypes;
+    }
+
+    public void setConsultationTypes(List<String> consultationTypes) {
+        this.consultationTypes = consultationTypes;
+    }
+
+    public boolean isOnlineConsultationAvailable() {
+        return onlineConsultationAvailable;
+    }
+
+    public void setOnlineConsultationAvailable(boolean onlineConsultationAvailable) {
+        this.onlineConsultationAvailable = onlineConsultationAvailable;
+    }
+
+    public int getConsultationDuration() {
+        return consultationDuration;
+    }
+
+    public void setConsultationDuration(int consultationDuration) {
+        this.consultationDuration = consultationDuration;
+    }
 }

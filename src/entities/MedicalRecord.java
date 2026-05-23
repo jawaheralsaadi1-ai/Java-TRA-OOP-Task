@@ -1,5 +1,7 @@
 package entities;
 
+import interfaces.Displayable;
+
 import java.time.LocalDate;
 
 /**
@@ -7,7 +9,7 @@ import java.time.LocalDate;
  * CONCEPTS: Data Association (linking Patient and Doctor IDs).
  */
 // Create MedicalRecord Class
-public class MedicalRecord {
+public class MedicalRecord implements Displayable {
     private String recordId;
     private String patientId;
     private String doctorId;
@@ -104,5 +106,12 @@ public class MedicalRecord {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public void displaySummary() {
+        System.out.println("Record: " + recordId +
+                " | Patient: " + patientId +
+                " | Diagnosis: " + diagnosis);
     }
 }

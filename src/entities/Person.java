@@ -31,6 +31,10 @@ public class Person {
         this.address = address;
     }
 
+    public Person() {
+
+    }
+
     // Display Info Method
     public void displayInfo() {
         System.out.println("ID: " + id + " | Name: " + firstName + " " + lastName +

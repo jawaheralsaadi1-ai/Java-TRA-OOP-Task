@@ -1,9 +1,11 @@
 package entities;
 
+import interfaces.Billable;
+
 import java.time.LocalDate;
 import java.util.List;
 
-public class InPatient extends Patient {
+public abstract class InPatient extends Patient implements Billable {
     private LocalDate admissionDate;
     private LocalDate dischargeDate;
     private String roomNumber;
@@ -43,5 +45,39 @@ public class InPatient extends Patient {
     }
     public double calculateTotalCharges() {
         return 0;
+    }
+
+    @Override
+    public double calculateCharges() {
+        if (admissionDate != null && dischargeDate != null) {
+            long days = java.time.temporal.ChronoUnit.DAYS.between(admissionDate, dischargeDate);
+            return days * dailyCharges;
+        }
+        return dailyCharges;
+    }
+
+    @Override
+    public void generateBill() {
+        System.out.println("===== Bill for InPatient =====");
+        System.out.println("Room: " + roomNumber + " | Bed: " + bedNumber);
+        System.out.println("Daily Charges: $" + dailyCharges);
+        System.out.println("Total: $" + calculateCharges());
+    }
+
+    @Override
+    public void processPayment(double amount) {
+        double total = calculateCharges();
+        if (amount >= total) {
+            System.out.println("Payment successful. Amount paid: $" + amount);
+        } else {
+            System.out.println("Insufficient payment. Remaining: $" + (total - amount));
+        }
+    }
+
+    @Override
+    public void displaySummary() {
+        System.out.println("InPatient: " + getFirstName() + " " + getLastName() +
+                " | Room: " + roomNumber +
+                " | Total: $" + calculateCharges());
     }
 }

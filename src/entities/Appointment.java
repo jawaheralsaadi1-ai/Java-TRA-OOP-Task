@@ -1,9 +1,11 @@
 package entities;
 
+import interfaces.Displayable;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Appointment {
+public class Appointment implements Displayable {
     private String notes;
     private String appointmentId;
     private String patientId;
@@ -24,7 +26,7 @@ public class Appointment {
         this.reason = reason;
     }
 
-    public Appointment() {
+    public Appointment(String s, String string, String s1, LocalDate now, String time, String scheduled, String generalCheckup, String string1) {
         
     }
 
@@ -105,7 +107,18 @@ public class Appointment {
 
     public void setDoctorId(String doctorId) {
     }
-
+    @Override
     public void displayInfo() {
+        System.out.println("Appointment: " + appointmentId +
+                " | Patient: " + patientId +
+                " | Doctor: " + doctorId +
+                " | Date: " + appointmentDate +
+                " | Status: " + status);
+    }
+
+    @Override
+    public void displaySummary() {
+        System.out.println("Appointment " + appointmentId +
+                " | " + appointmentDate + " | " + status);
     }
 }

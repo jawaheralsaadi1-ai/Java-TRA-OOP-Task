@@ -1,4 +1,6 @@
 package entities;
+import interfaces.Displayable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +10,15 @@ import java.util.List;
  * ROLE: Represents a Medical Professional (Doctor).
  * CONCEPTS: Constructor Chaining, List Management, Method Overriding.
  */
-public class Doctor extends Person {
+public class Doctor extends Person implements Displayable {
+
     private String doctorId;
     private String specialization;
     private String qualification;
     private int experienceYears;
     private String departmentId;
     private double consultationFee;
-    private List<String> availableSlots;
+    protected List<String> availableSlots;
     private List<String> assignedPatients;
 
     public Doctor(String id, String firstName, String lastName, LocalDate dateOfBirth,
@@ -34,6 +37,10 @@ public class Doctor extends Person {
         this.consultationFee = consultationFee;
         this.availableSlots = new ArrayList<>();
         this.assignedPatients = new ArrayList<>();
+    }
+
+    public Doctor(String name, String firstName, String phone, String specialization, double fee) {
+        super();
     }
 
 
@@ -115,8 +122,9 @@ public class Doctor extends Person {
         return availableSlots;
     }
 
-    public void setAvailableSlots(List<String> availableSlots) {
+    public boolean setAvailableSlots() {
         this.availableSlots = availableSlots;
+        return false;
     }
 
     public List<String> getAssignedPatients() {
@@ -125,5 +133,32 @@ public class Doctor extends Person {
 
     public void setAssignedPatients(List<String> assignedPatients) {
         this.assignedPatients = assignedPatients;
+    }
+    // Method Overloading - updateFee
+    public void updateFee(double fee) {
+        this.setConsultationFee(fee);
+        System.out.println("Fee updated: " + fee);
+    }
+
+    public void updateFee(double fee, String reason) {
+        this.setConsultationFee(fee);
+        System.out.println("Fee updated: " + fee + " | Reason: " + reason);
+    }
+
+    // Method Overloading - addAvailability
+    public void addAvailability(String slot) {
+        this.availableSlots.add(slot);
+        System.out.println("Slot added: " + slot);
+    }
+
+    public void addAvailability(List<String> slots) {
+        this.availableSlots.addAll(slots);
+        System.out.println("Slots added: " + slots.size());
+    }
+    @Override
+    public void displaySummary() {
+        System.out.println("Doctor: " + getFirstName() + " " + getLastName() +
+                " | Specialization: " + getSpecialization() +
+                " | Fee: $" + getConsultationFee());
     }
 }

@@ -1,14 +1,13 @@
 package entities;
 
-import entities.Person;
+import interfaces.Displayable;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 
 //Create Base  Class and Inheritance Hierarchy
-public class Patient extends Person {
+public class Patient extends Person implements Displayable {
     private String patientId;
     private String bloodGroup;
     private List<String> allergies;
@@ -34,6 +33,9 @@ public class Patient extends Person {
         this.insuranceId = insuranceId;
         this.medicalRecords = medicalRecords;
         this.appointments = appointments;
+    }
+
+    public Patient(String firstName, String lastName, String phone) {
     }
 
 
@@ -125,6 +127,32 @@ public class Patient extends Person {
 
     public void setAppointments(List<String> appointments) {
         this.appointments = appointments;
+    }
+
+    // Method Overloading - updateContact
+    public void updateContact(String phone) {
+        this.setPhoneNumber(phone);
+        System.out.println("Phone updated: " + phone);
+    }
+
+    public void updateContact(String phone, String email) {
+        this.setPhoneNumber(phone);
+        this.setEmail(email);
+        System.out.println("Phone and email updated.");
+    }
+
+    public void updateContact(String phone, String email, String address) {
+        this.setPhoneNumber(phone);
+        this.setEmail(email);
+        this.setAddress(address);
+        System.out.println("Contact info fully updated.");
+    }
+
+    @Override
+    public void displaySummary() {
+        System.out.println("Patient: " + getFirstName() + " " + getLastName() +
+                " | Blood Group: " + getBloodGroup() +
+                " | Insurance: " + getInsuranceId());
     }
 }
 

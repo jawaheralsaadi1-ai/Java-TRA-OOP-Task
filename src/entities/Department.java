@@ -1,11 +1,13 @@
 package entities;
 
+import interfaces.Displayable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 //Create Department Class
-public class Department {
+public class Department implements Displayable {
     private String departmentId;
     private String departmentName;
     private String headDoctorId;
@@ -105,5 +107,11 @@ public class Department {
 
     public void setAvailableBeds(int availableBeds) {
         this.availableBeds = availableBeds;
+    }
+
+    @Override
+    public void displaySummary() {
+        System.out.println("Department: " + departmentName +
+                " | Beds: " + availableBeds + "/" + bedCapacity);
     }
 }

@@ -1,11 +1,13 @@
 package entities;
+import interfaces.Displayable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
 //  Create Nurse Class (extends Person)
-public class Nurse extends Person {
+public class Nurse extends Person implements Displayable {
     private String nurseId;
     private String departmentId;
     private String shift; //  Morning/Evening/Night
@@ -89,4 +91,11 @@ public class Nurse extends Person {
     public void setAssignedPatients(List<String> assignedPatients) {
         this.assignedPatients = assignedPatients;
     }
+
+        @Override
+        public void displaySummary() {
+            System.out.println("Nurse: " + getFirstName() + " " + getLastName() +
+                    " | Shift: " + getShift() +
+                    " | Department: " + getDepartmentId());
+        }
 }

@@ -2,153 +2,237 @@ package main;
 
 import entities.*;
 import services.*;
-import utils.HelperUtils;
-import utils.InputHandler;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
-/**
- * Hospital Management System - Final Implementation
- * This class acts as the Controller in the MVC pattern.
- */
 public class HospitalManagementApp {
 
-    // Service Layer instances (Abstraction)
-    private static final PatientService patientService = new PatientService();
-    private static final DoctorService doctorService = new DoctorService();
-    private static final AppointmentService appointmentService = new AppointmentService();
-    private static final DepartmentService departmentService = new DepartmentService();
+    static Scanner scanner = new Scanner(System.in);
+    static PatientService patientService = new PatientService();
+    static DoctorService doctorService = new DoctorService();
+    static NurseService nurseService = new NurseService();
+    static AppointmentService appointmentService = new AppointmentService();
+    static DepartmentService departmentService = new DepartmentService();
+    static MedicalRecordService medicalRecordService = new MedicalRecordService();
 
+    // ===== Helper Methods =====
+    static String input(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    static int menu(String title, String... options) {
+        System.out.println("\n===== " + title + " =====");
+        for (int i = 0; i < options.length; i++) {
+            System.out.println((i + 1) + ". " + options[i]);
+        }
+        System.out.println("0. Back");
+        System.out.print("Choose: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
+
+    // ===== Main =====
     public static void main(String[] args) {
-        // Automatically populate system with required 10+ patients, 8+ doctors, etc.
-        populateSampleData();
-
-        boolean running = true;
-        while (running) {
-            displayMainMenu();
-            int choice = InputHandler.getIntInput("Select Menu Option: ", 1, 8);
-
+        int choice;
+        do {
+            choice = menu("Hospital Management System",
+                    "Patients", "Doctors", "Nurses",
+                    "Appointments", "Departments", "Medical Records");
             switch (choice) {
-                case 1 -> handlePatientManagement();
-                case 2 -> handleDoctorManagement();
-                case 3 -> System.out.println("\n[Nurse Management Feature coming in Next Build]");
-                case 4 -> handleAppointmentManagement();
-                case 5 -> System.out.println("\n[Medical Records Feature coming in Next Build]");
-                case 6 -> handleDepartmentManagement();
-                case 7 -> generateQuickReports();
-                case 8 -> {
-                    System.out.println("System Shutting Down... Goodbye!");
-                    running = false;
-                }
-                default -> System.out.println("Invalid selection.");
+                case 1 -> patientsMenu();
+                case 2 -> doctorsMenu();
+                case 3 -> nursesMenu();
+                case 4 -> appointmentsMenu();
+                case 5 -> departmentsMenu();
+                case 6 -> medicalRecordsMenu();
+                case 0 -> System.out.println("Goodbye!");
+                default -> System.out.println("Invalid choice.");
             }
-        }
+        } while (choice != 0);
     }
 
-    private static void displayMainMenu() {
-        System.out.println("\n===========================================");
-        System.out.println("     OMAN GENERAL HOSPITAL SYSTEM v1.0     ");
-        System.out.println("===========================================");
-        System.out.println("1. Patient Management (Register/Search/History)");
-        System.out.println("2. Doctor Management (Add/Specialization/Assign)");
-        System.out.println("3. Nurse Management");
-        System.out.println("4. Appointment Management (Schedule/Cancel)");
-        System.out.println("5. Medical Records");
-        System.out.println("6. Department Management");
-        System.out.println("7. Reports and Statistics");
-        System.out.println("8. Exit");
-        System.out.println("===========================================");
-    }
-
-    // --- TASK 3.5 & 3.7: LOGIC & SAMPLE DATA ---
-
-    private static void handlePatientManagement() {
-        System.out.println("\n--- Patient Management ---");
-        System.out.println("1. Register Standard Patient");
-        System.out.println("2. Register In-Patient (With Room Assignment)");
-        System.out.println("3. Register Emergency Patient (Triage)");
-        System.out.println("4. View All Patients");
-        System.out.println("5. Search Patient by Name");
-
-        int choice = InputHandler.getIntInput("Selection: ", 1, 5);
-
-        switch (choice) {
-            case 1 -> {
-                String fName = InputHandler.getStringInput("First Name: ");
-                String lName = InputHandler.getStringInput("Last Name: ");
-                String phone = InputHandler.getStringInput("Phone Number: ");
-                patientService.addPatient(fName, lName, phone); // Overloaded method call
+    // ===== Patients =====
+    static void patientsMenu() {
+        int choice;
+        do {
+            choice = menu("Patients", "Add", "Display All", "Search by Name", "Remove");
+            switch (choice) {
+                case 1 -> addPatient();
+                case 2 -> patientService.displayAllPatients();
+                case 3 -> patientService.searchPatientsByName(input("Name: "))
+                        .forEach(p -> p.displayInfo());
+                case 4 -> patientService.removePatient(input("Patient ID: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
             }
-            case 4 -> patientService.displayAllPatients();
-            case 5 -> {
-                String name = InputHandler.getStringInput("Enter name to search: ");
-                patientService.searchPatientsByName(name);
+        } while (choice != 0);
+    }
+
+    static void addPatient() {
+        patientService.addPatient(new Patient(
+                input("ID: "), input("First Name: "), input("Last Name: "),
+                LocalDate.parse(input("DOB (YYYY-MM-DD): ")),
+                input("Gender: "), input("Phone: "),
+                input("Email: "), input("Address: "),
+                input("Patient ID: "), input("Blood Group: "),
+                new ArrayList<String>(), input("Emergency Contact: "),
+                LocalDate.now(), input("Insurance ID: "),
+                new ArrayList<String>(), new ArrayList<String>()
+        ));
+    }
+
+    // ===== Doctors =====
+    static void doctorsMenu() {
+        int choice;
+        do {
+            choice = menu("Doctors", "Add", "Display All",
+                    "Search by Specialization", "Available Doctors", "Remove");
+            switch (choice) {
+                case 1 -> addDoctor();
+                case 2 -> doctorService.displayAllDoctors();
+                case 3 -> doctorService.getDoctorsBySpecialization(input("Specialization: "))
+                        .forEach(d -> d.displayInfo());
+                case 4 -> doctorService.getAvailableDoctors()
+                        .forEach(d -> d.displayInfo());
+                case 5 -> doctorService.removeDoctor(input("Doctor ID: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
             }
-        }
+        } while (choice != 0);
     }
 
-    private static void handleAppointmentManagement() {
-        System.out.println("\n--- Appointment Management ---");
-        System.out.println("1. Schedule New Appointment");
-        System.out.println("2. View All Appointments");
-        System.out.println("3. Cancel Appointment");
-
-        int choice = InputHandler.getIntInput("Selection: ", 1, 3);
-        if (choice == 1) {
-            String pId = InputHandler.getStringInput("Patient ID: ");
-            String dId = InputHandler.getStringInput("Doctor ID: ");
-            LocalDate date = InputHandler.getDateInput("Date (YYYY-MM-DD): ");
-            String time = InputHandler.getStringInput("Time (e.g., 09:00 AM): ");
-
-            // Method Overloading in Action
-            appointmentService.createAppointment(pId, dId, date, time);
-        } else if (choice == 2) {
-            appointmentService.displayAll();
-        }
+    static void addDoctor() {
+        doctorService.addDoctor(new Doctor(
+                input("ID: "), input("First Name: "), input("Last Name: "),
+                LocalDate.parse(input("DOB (YYYY-MM-DD): ")),
+                input("Gender: "), input("Phone: "),
+                input("Email: "), input("Address: "),
+                input("Doctor ID: "), input("Specialization: "),
+                input("Qualification: "),
+                Integer.parseInt(input("Experience Years: ")),
+                input("Department ID: "),
+                Double.parseDouble(input("Consultation Fee: "))
+        ));
     }
 
-    private static void handleDoctorManagement() {
-        System.out.println("\n--- Doctor Management ---");
-        doctorService.displayAllDoctors();
+    // ===== Nurses =====
+    static void nursesMenu() {
+        int choice;
+        do {
+            choice = menu("Nurses", "Add", "Display All",
+                    "Search by Department", "Search by Shift", "Remove");
+            switch (choice) {
+                case 1 -> addNurse();
+                case 2 -> nurseService.displayAllNurses();
+                case 3 -> nurseService.getNursesByDepartment(input("Department ID: "))
+                        .forEach(n -> n.displayInfo());
+                case 4 -> nurseService.getNursesByShift(input("Shift (Morning/Evening/Night): "))
+                        .forEach(n -> n.displayInfo());
+                case 5 -> nurseService.removeNurse(input("Nurse ID: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
     }
 
-    private static void handleDepartmentManagement() {
-        departmentService.displayAllDepartments();
+    static void addNurse() {
+        nurseService.addNurse(new Nurse(
+                input("ID: "), input("First Name: "), input("Last Name: "),
+                LocalDate.parse(input("DOB (YYYY-MM-DD): ")),
+                input("Gender: "), input("Phone: "),
+                input("Email: "), input("Address: "),
+                input("Nurse ID: "), input("Department ID: "),
+                input("Shift (Morning/Evening/Night): "),
+                input("Qualification: ")
+        ));
     }
 
-    private static void generateQuickReports() {
-        System.out.println("\n--- Hospital Statistics ---");
-        System.out.println("Total Patients: " + patientService.getAll().size());
-        System.out.println("Total Doctors: " + doctorService.getAll().size());
-        System.out.println("Active Appointments: " + appointmentService.getAll().size());
+    // ===== Appointments =====
+    static void appointmentsMenu() {
+        int choice;
+        do {
+            choice = menu("Appointments", "Add", "Search by Patient",
+                    "Search by Doctor", "Cancel", "Reschedule");
+            switch (choice) {
+                case 1 -> addAppointment();
+                case 2 -> appointmentService.getAppointmentsByPatient(input("Patient ID: "))
+                        .forEach(a -> System.out.println(
+                                a.getAppointmentId() + " | " +
+                                        a.getAppointmentDate() + " | " +
+                                        a.getStatus()));
+                case 3 -> appointmentService.getAppointmentsByDoctor(input("Doctor ID: "))
+                        .forEach(a -> System.out.println(
+                                a.getAppointmentId() + " | " +
+                                        a.getAppointmentDate() + " | " +
+                                        a.getStatus()));
+                case 4 -> appointmentService.cancelAppointment(input("Appointment ID: "));
+                case 5 -> appointmentService.rescheduleAppointment(
+                        input("Appointment ID: "),
+                        LocalDate.parse(input("New Date (YYYY-MM-DD): ")),
+                        input("New Time: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
     }
 
-    /**
-     * Requirement 3.7: Fulfilling sample data quota
-     */
-    private static void populateSampleData() {
-        System.out.print("Loading system data... ");
+    static void addAppointment() {
+        appointmentService.addAppointment(new Appointment(
+                input("Appointment ID: "), input("Patient ID: "),
+                input("Doctor ID: "),
+                LocalDate.parse(input("Date (YYYY-MM-DD): ")),
+                input("Time: "), input("Reason: ")
+        ));
+    }
 
-        // Populate Departments
-        departmentService.add(new Department("DEP-1", "Cardiology", 20));
-        departmentService.add(new Department("DEP-2", "Neurology", 15));
-        departmentService.add(new Department("DEP-3", "Emergency", 50));
+    // ===== Departments =====
+    static void departmentsMenu() {
+        int choice;
+        do {
+            choice = menu("Departments", "Add", "Display All",
+                    "Assign Doctor", "Remove");
+            switch (choice) {
+                case 1 -> departmentService.addDepartment(new Department(
+                        input("Department ID: "), input("Department Name: "),
+                        Integer.parseInt(input("Bed Capacity: "))));
+                case 2 -> departmentService.displayAllDepartments();
+                case 3 -> departmentService.assignDoctorToDepartment(
+                        input("Doctor ID: "), input("Department ID: "));
+                case 4 -> departmentService.removeDepartment(input("Department ID: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
+    }
 
-        // Populate Doctors (Mix of Specialists)
-        doctorService.addDoctor(new Surgeon("DOC-1", "Ahmed", "Al-Balushi", "General Surgery", 15));
-        doctorService.addDoctor(new Consultant("DOC-2", "Sara", "Al-Said", "Neurology", 10));
-        doctorService.addDoctor("Dr. Salim", "Cardiology", "99887766", 50.0); // Overloaded method
+    // ===== Medical Records =====
+    static void medicalRecordsMenu() {
+        int choice;
+        do {
+            choice = menu("Medical Records", "Add", "Patient History",
+                    "Search by Doctor", "Remove");
+            switch (choice) {
+                case 1 -> addMedicalRecord();
+                case 2 -> medicalRecordService.displayPatientHistory(input("Patient ID: "));
+                case 3 -> medicalRecordService.getRecordsByDoctorId(input("Doctor ID: "))
+                        .forEach(r -> r.displayInfo());
+                case 4 -> medicalRecordService.removeRecord(input("Record ID: "));
+                case 0 -> System.out.println("Back...");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
+    }
 
-        // Populate Patients (Mix of Types)
-        patientService.addPatient(new InPatient("PAT-1", "John", "Doe", "Room 302", 150.0));
-        patientService.addPatient(new EmergencyPatient("PAT-2", "Amna", "Al-Farsi", "High", 1));
-
-        // Add 8 more generic patients via loop to meet Task 3.7 requirement
-        for(int i = 3; i <= 10; i++) {
-            patientService.addPatient("PatientFirstName" + i, "LastName", "900000" + i);
-        }
-
-        System.out.println("Done. [10 Patients, 3 Departments, 8 Doctors Loaded]");
+    static void addMedicalRecord() {
+        medicalRecordService.addRecord(new MedicalRecord(
+                input("Record ID: "), input("Patient ID: "),
+                input("Doctor ID: "),
+                LocalDate.parse(input("Visit Date (YYYY-MM-DD): ")),
+                input("Diagnosis: "), input("Prescription: "),
+                input("Test Results: "), input("Notes: ")
+        ));
     }
 }
